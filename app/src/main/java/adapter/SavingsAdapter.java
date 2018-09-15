@@ -1,5 +1,6 @@
 package adapter;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.Context;
@@ -12,62 +13,90 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import pojo.SavingGoals;
+
 import pojo.SavingsGoal;
+import yodgobekkomilov.edgar.com.qapitaltask.MainActivity;
 import yodgobekkomilov.edgar.com.qapitaltask.R;
 
 public class SavingsAdapter  extends BaseAdapter {
 
-    private final Context mContext;
-    private final SavingGoals[] savings;
-    TextView text;
+    private  Context mContext;
+    private List<SavingsGoal> savings;
+
+
+
+    public class ViewHolder {
+        TextView username,country;
+        ImageView profilePic;
+
+    }
 
 
 
 
     // 1
-    public SavingsAdapter(Context context, SavingGoals[] savings) {
+    public SavingsAdapter(List<SavingsGoal> savings, Context context) {
         this.mContext = context;
         this.savings = savings;
     }
 
 
-    public void getText(SavingGoals goals){
-
-
-
-        text.setText((CharSequence) goals.getSavingsGoals());
-
-
-    }
 
     @Override
     public int getCount() {
-        return savings.length;
+        return savings.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return position;
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
+    @SuppressLint("SetTextI18n")
     public View getView(int position, View convertView, ViewGroup parent) {
-        LinearLayout linearlayout = new LinearLayout(mContext);
-        ImageView imageView = new ImageView(mContext);
-        text = new TextView(mContext);
-        linearlayout.setOrientation(LinearLayout.VERTICAL);
-        imageView.setImageResource(mThumbIds[position]);
-        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-        imageView.setLayoutParams(new GridView.LayoutParams(270, 270));
-        text.setText(mThumbTxt[position]);
 
-        linearlayout.addView(imageView);
-        linearlayout.addView(text);
-        return linearlayout;
+        View rowView = convertView;
+        ViewHolder viewHolder;
+
+        if (rowView == null) {
+            //LayoutInflater inflater =  getLayoutInflater;
+            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            rowView = inflater.inflate(R.layout.savings_item, parent,false);
+            // configure view holder
+            viewHolder = new ViewHolder();
+//                viewHolder.copy = (ImageView) rowView.findViewById(R.id.copy);
+//                viewHolder.share = (ImageView) rowView.findViewById(R.id.share);
+             viewHolder.username = (TextView) rowView.findViewById(R.id.imgProfile);
+            viewHolder.username = (TextView) rowView.findViewById(R.id.txtUsername);
+            viewHolder.country = (TextView) rowView.findViewById(R.id.txtCountry);
+            rowView.setTag(viewHolder);
+
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
+        }
+
+
+        viewHolder.username.setText((Integer) savings.get(position).getId());
+        viewHolder.country.setText((Integer) savings.get(position).getTargetAmount());
+
+
+       // Glide.with(mContext).load(savings.get(position).getGoalImageURL()).into(viewHolder.profilePic));
+       // Picasso.with(mContext) //
+           //     .load(savings.get(position).getGoalImageURL()) //
+
+        Picasso.get().load(String.valueOf(savings.get(position).getConnectedUsers())).into(viewHolder.profilePic);
+        return convertView;
     }
 }
