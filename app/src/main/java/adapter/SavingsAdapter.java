@@ -28,12 +28,12 @@ import pojo.SavingsGoal;
 import yodgobekkomilov.edgar.com.qapitaltask.MainActivity;
 import yodgobekkomilov.edgar.com.qapitaltask.R;
 
-class SavingsAdapter  extends RecyclerView.Adapter<SavingsAdapter.SavingsViewHolder> {
+public class SavingsAdapter  extends RecyclerView.Adapter<SavingsAdapter.SavingsViewHolder> {
 
 
     SavingsGoal savingGoals;
 
-    SavingsAdapter(SavingsGoal savingsGoals){
+    public SavingsAdapter(SavingsGoal savingsGoals){
         this.savingGoals = savingsGoals;
     }
 
