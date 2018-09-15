@@ -7,7 +7,7 @@ import retrofit2.http.GET;
 
 public interface SavingsInterface {
     @GET("/savingsgoals")
-    Call<List<SavingGoals>> getSavings();
+    Call<SavingEndingPoint> getSavings();
 
 
 

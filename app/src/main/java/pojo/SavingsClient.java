@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SavingsClient {
 
-    private static final String ROOT_URL = "http://api.androiddeft.com/";
+    private static final String ROOT_URL = "https://qapital-ios-testtask.herokuapp.com";
 
     /**
      * Get Retrofit Instance

@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class SavingGoals {
+public class SavingEndingPoint {
 
     @SerializedName("savingsGoals")
     @Expose

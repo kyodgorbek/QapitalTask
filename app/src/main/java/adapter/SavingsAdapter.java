@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import pojo.SavingGoals;
+
 
 import pojo.SavingsGoal;
 import yodgobekkomilov.edgar.com.qapitaltask.MainActivity;
@@ -31,9 +31,9 @@ import yodgobekkomilov.edgar.com.qapitaltask.R;
 public class SavingsAdapter  extends RecyclerView.Adapter<SavingsAdapter.SavingsViewHolder> {
 
 
-    SavingsGoal savingGoals;
+    ArrayList<SavingsGoal> savingGoals;
 
-    public SavingsAdapter(SavingsGoal savingsGoals){
+    public SavingsAdapter(ArrayList<SavingsGoal> savingsGoals){
         this.savingGoals = savingsGoals;
     }
 
@@ -46,10 +46,12 @@ public class SavingsAdapter  extends RecyclerView.Adapter<SavingsAdapter.Savings
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SavingsViewHolder savingsViewHolder, int i) {
-        Picasso.get().load(savingGoals.getGoalImageURL()).into(savingsViewHolder.imgSavings);
-        savingsViewHolder.userId.setText(savingGoals.getUserId());
-        savingsViewHolder.targetAmount.setText((Integer) savingGoals.getTargetAmount());
+    public void onBindViewHolder(@NonNull SavingsViewHolder savingsViewHolder, int position) {
+
+
+        Picasso.get().load(savingGoals.get(position).getGoalImageURL()).into(savingsViewHolder.imgSavings);
+        savingsViewHolder.userId.setText(savingGoals.get(position).getUserId());
+        savingsViewHolder.targetAmount.setText((Integer) savingGoals.get(position).getTargetAmount());
     }
 
     @Override

@@ -1,14 +1,15 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+
+
+
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="#fff"
+    android:id="@+id/card_view"
     android:layout_height="wrap_content">
 
-    <ImageView
-        android:scaleType="fitXY"
-        android:id="@+id/imgProfile"
-        android:layout_width="match_parent"
-        android:layout_height="100dp" />
+
+
+
 
     <LinearLayout
         android:gravity="center"
@@ -16,22 +17,27 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <ImageView
+            android:scaleType="fitXY"
+            android:id="@+id/imgSavings"
+            android:layout_width="match_parent"
+            android:layout_height="100dp" />
         <TextView
             android:textColor="#000"
-            android:id="@+id/txtUsername"
+            android:id="@+id/userId"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:text="Username"
+            android:text="UserId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
 
         <TextView
             android:textColor="#000"
-            android:id="@+id/txtCountry"
+            android:id="@+id/targetAmount"
             android:textSize="14sp"
             android:text="country"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
-</LinearLayout>
+</android.support.v7.widget.CardView>
