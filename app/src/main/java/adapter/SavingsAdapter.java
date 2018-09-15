@@ -27,18 +27,15 @@ import yodgobekkomilov.edgar.com.qapitaltask.R;
 
 public class SavingsAdapter  extends BaseAdapter {
 
-    private  Context mContext;
+    private Context mContext;
     private List<SavingsGoal> savings;
 
 
-
     public class ViewHolder {
-        TextView username,country;
+        TextView username, country;
         ImageView profilePic;
 
     }
-
-
 
 
     // 1
@@ -46,7 +43,6 @@ public class SavingsAdapter  extends BaseAdapter {
         this.mContext = context;
         this.savings = savings;
     }
-
 
 
     @Override
@@ -70,15 +66,15 @@ public class SavingsAdapter  extends BaseAdapter {
         View rowView = convertView;
         ViewHolder viewHolder;
 
+
         if (rowView == null) {
-            //LayoutInflater inflater =  getLayoutInflater;
-            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = LayoutInflater.from(mContext);
             rowView = inflater.inflate(R.layout.savings_item, parent,false);
             // configure view holder
             viewHolder = new ViewHolder();
 //                viewHolder.copy = (ImageView) rowView.findViewById(R.id.copy);
 //                viewHolder.share = (ImageView) rowView.findViewById(R.id.share);
-             viewHolder.username = (TextView) rowView.findViewById(R.id.imgProfile);
+            viewHolder.profilePic = (ImageView) rowView.findViewById(R.id.imgProfile);
             viewHolder.username = (TextView) rowView.findViewById(R.id.txtUsername);
             viewHolder.country = (TextView) rowView.findViewById(R.id.txtCountry);
             rowView.setTag(viewHolder);
@@ -88,15 +84,70 @@ public class SavingsAdapter  extends BaseAdapter {
         }
 
 
-        viewHolder.username.setText((Integer) savings.get(position).getId());
-        viewHolder.country.setText((Integer) savings.get(position).getTargetAmount());
+        viewHolder.username.setText(savings.get(position).getId());
+            viewHolder.country.setText((Integer) savings.get(position).getTargetAmount());
 
 
-       // Glide.with(mContext).load(savings.get(position).getGoalImageURL()).into(viewHolder.profilePic));
-       // Picasso.with(mContext) //
-           //     .load(savings.get(position).getGoalImageURL()) //
+            // Glide.with(mContext).load(savings.get(position).getGoalImageURL()).into(viewHolder.profilePic));
+            // Picasso.with(mContext) //
+            //     .load(savings.get(position).getGoalImageURL()) //
 
-        Picasso.get().load(String.valueOf(savings.get(position).getConnectedUsers())).into(viewHolder.profilePic);
-        return convertView;
+            Picasso.get().load(String.valueOf(savings.get(position).getConnectedUsers())).into(viewHolder.profilePic);
+            return rowView;
+        }
+
     }
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
