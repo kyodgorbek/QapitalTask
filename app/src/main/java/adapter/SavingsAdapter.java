@@ -4,6 +4,9 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,76 +28,49 @@ import pojo.SavingsGoal;
 import yodgobekkomilov.edgar.com.qapitaltask.MainActivity;
 import yodgobekkomilov.edgar.com.qapitaltask.R;
 
-public class SavingsAdapter  extends BaseAdapter {
-
-    private Context mContext;
-    private List<SavingsGoal> savings;
+class SavingsAdapter  extends RecyclerView.Adapter<SavingsAdapter.SavingsViewHolder> {
 
 
-    public class ViewHolder {
-        TextView username, country;
-        ImageView profilePic;
+    SavingsGoal savingGoals;
 
+    SavingsAdapter(SavingsGoal savingsGoals){
+        this.savingGoals = savingsGoals;
     }
 
-
-    // 1
-    public SavingsAdapter(List<SavingsGoal> savings, Context context) {
-        this.mContext = context;
-        this.savings = savings;
-    }
-
-
+    @NonNull
     @Override
-    public int getCount() {
-        return savings.size();
+    public SavingsViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.savings_item, viewGroup, false);
+        SavingsViewHolder pvh = new SavingsViewHolder(v);
+        return pvh;
     }
 
     @Override
-    public Object getItem(int position) {
-        return position;
+    public void onBindViewHolder(@NonNull SavingsViewHolder savingsViewHolder, int i) {
+        Picasso.get().load(savingGoals.getGoalImageURL()).into(savingsViewHolder.imgSavings);
+        savingsViewHolder.userId.setText(savingGoals.getUserId());
+        savingsViewHolder.targetAmount.setText((Integer) savingGoals.getTargetAmount());
     }
 
     @Override
-    public long getItemId(int position) {
-        return position;
+    public int getItemCount() {
+        return 0;
     }
 
-    @SuppressLint("SetTextI18n")
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public static class SavingsViewHolder extends RecyclerView.ViewHolder {
+       CardView cardview;
+       TextView userId, targetAmount;
+       ImageView imgSavings;
+        public SavingsViewHolder(@NonNull View itemView) {
+            super(itemView);
 
-        View rowView = convertView;
-        ViewHolder viewHolder;
-
-
-        if (rowView == null) {
-            LayoutInflater inflater = LayoutInflater.from(mContext);
-            rowView = inflater.inflate(R.layout.savings_item, parent,false);
-            // configure view holder
-            viewHolder = new ViewHolder();
-//                viewHolder.copy = (ImageView) rowView.findViewById(R.id.copy);
-//                viewHolder.share = (ImageView) rowView.findViewById(R.id.share);
-            viewHolder.profilePic = (ImageView) rowView.findViewById(R.id.imgProfile);
-            viewHolder.username = (TextView) rowView.findViewById(R.id.txtUsername);
-            viewHolder.country = (TextView) rowView.findViewById(R.id.txtCountry);
-            rowView.setTag(viewHolder);
-
-        } else {
-            viewHolder = (ViewHolder) convertView.getTag();
+                cardview = (CardView)itemView.findViewById(R.id.card_view);
+                userId = (TextView)itemView.findViewById(R.id.userId);
+                targetAmount= (TextView)itemView.findViewById(R.id.targetAmount);
+                imgSavings = (ImageView)itemView.findViewById(R.id.imgSavings);
+            }
         }
 
-
-        viewHolder.username.setText(savings.get(position).getId());
-            viewHolder.country.setText((Integer) savings.get(position).getTargetAmount());
-
-
-            // Glide.with(mContext).load(savings.get(position).getGoalImageURL()).into(viewHolder.profilePic));
-            // Picasso.with(mContext) //
-            //     .load(savings.get(position).getGoalImageURL()) //
-
-            Picasso.get().load(String.valueOf(savings.get(position).getConnectedUsers())).into(viewHolder.profilePic);
-            return rowView;
-        }
 
     }
 
