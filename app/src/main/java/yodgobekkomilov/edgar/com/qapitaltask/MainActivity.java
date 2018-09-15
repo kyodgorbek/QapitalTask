@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.GridView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import adapter.SavingsAdapter;
@@ -18,7 +17,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
-private List<SavingGoals> savingGoals;
+public  List<SavingsGoal> savingGoals;
 SavingsAdapter adapter;
 Context context;
 GridView gridView;
@@ -33,7 +32,8 @@ GridView gridView;
         call.enqueue(new Callback<List<SavingGoals>>() {
             @Override
             public void onResponse(Call<List<SavingGoals>> call, Response<List<SavingGoals>> response) {
-                savingGoals  = response.body();
+
+                savingGoals  =  response.body().get(0).getSavingsGoals();
                 gridView = findViewById(R.id.grid_View);
                 adapter = new SavingsAdapter(savingGoals, context );
                 gridView.setAdapter(adapter);
