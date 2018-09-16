@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">QapitalTask</string>
+    <string name="amount_value_only">$%d</string>
+    <string name="amount_value_of">$%1$s of %2$s</string>
 </resources>

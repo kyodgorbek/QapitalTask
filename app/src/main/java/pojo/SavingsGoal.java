@@ -2,6 +2,7 @@ package pojo;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.TypeConverters;
 import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.Expose;
@@ -11,24 +12,22 @@ import java.util.List;
 
 @Entity(tableName = "savingsGoals_table")
 public class SavingsGoal {
-    @PrimaryKey
     @NonNull
     @SerializedName("goalImageURL")
     @Expose
     private String goalImageURL;
     @SerializedName("userId")
     @Expose
-    private Integer userId;
+    private int userId;
     @SerializedName("targetAmount")
-    @PrimaryKey
-    @NonNull
     @Expose
-    private Object targetAmount;
+    private String targetAmount="";
     @SerializedName("currentBalance")
     @Expose
-    private Integer currentBalance;
+    private int currentBalance;
     @SerializedName("created")
     @Expose
+    @TypeConverters(Converters.class)
     private List<Integer> created = null;
     @SerializedName("status")
     @Expose
@@ -36,11 +35,13 @@ public class SavingsGoal {
     @SerializedName("name")
     @Expose
     private String name;
+    @PrimaryKey
     @SerializedName("id")
     @Expose
-    private Integer id;
+    private int id;
     @SerializedName("connectedUsers")
     @Expose
+    @TypeConverters(Converters.class)
     private Object connectedUsers;
 
     public String getGoalImageURL() {
@@ -51,7 +52,7 @@ public class SavingsGoal {
         this.goalImageURL = goalImageURL;
     }
 
-    public Integer getUserId() {
+    public int getUserId() {
         return userId;
     }
 
@@ -59,15 +60,15 @@ public class SavingsGoal {
         this.userId = userId;
     }
 
-    public Object getTargetAmount() {
+    public String getTargetAmount() {
         return targetAmount;
     }
 
-    public void setTargetAmount(Object targetAmount) {
+    public void setTargetAmount(String targetAmount) {
         this.targetAmount = targetAmount;
     }
 
-    public Integer getCurrentBalance() {
+    public int getCurrentBalance() {
         return currentBalance;
     }
 
@@ -99,7 +100,7 @@ public class SavingsGoal {
         this.name = name;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 

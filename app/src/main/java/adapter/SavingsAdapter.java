@@ -1,58 +1,45 @@
 package adapter;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.ClipData;
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
-
-
+import database.SavingsRoomDatabase;
 import pojo.SavingsGoal;
-import yodgobekkomilov.edgar.com.qapitaltask.MainActivity;
-import yodgobekkomilov.edgar.com.qapitaltask.R;
+import yodgobekkomilov.edgar.com.qapitaltask.SaveGoalsViewModel;
+import yodgobekkomilov.edgar.com.qapitaltask.databinding.SavingsItemBinding;
 
-public class SavingsAdapter  extends RecyclerView.Adapter<SavingsAdapter.SavingsViewHolder> {
+public class SavingsAdapter extends RecyclerView.Adapter<SavingsAdapter.SavingsViewHolder> {
 
 
-    ArrayList<SavingsGoal> savingGoals;
+    private ArrayList<SavingsGoal> savingGoals;
+    private Context mContext;
 
-    public SavingsAdapter(ArrayList<SavingsGoal> savingsGoals){
-        this.savingGoals = savingsGoals;
+    public SavingsAdapter(Context context) {
+        mContext = context;
+        savingGoals = new ArrayList<>();
+    }
+
+    public void refreshData() {
+        savingGoals.clear();
+        savingGoals.addAll(SavingsRoomDatabase.getDatabase(this.mContext).savingsGoalDao().getAllGoals());
+        this.notifyDataSetChanged();
     }
 
     @NonNull
     @Override
     public SavingsViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.savings_item, viewGroup, false);
-        SavingsViewHolder pvh = new SavingsViewHolder(v);
-        return pvh;
+        final SavingsItemBinding binding = SavingsItemBinding.inflate(LayoutInflater.from(viewGroup.getContext()), viewGroup, false);
+        return new SavingsViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull SavingsViewHolder savingsViewHolder, int position) {
-
-
-        Picasso.get().load(savingGoals.get(position).getGoalImageURL()).into(savingsViewHolder.imgSavings);
-        savingsViewHolder.userId.setText((String.valueOf(savingGoals.get(position).getName())));
-        savingsViewHolder.targetAmount.setText((String.valueOf( savingGoals.get(position).getTargetAmount())));
-
+        savingsViewHolder.viewModel.changeModel(savingGoals.get(position));
     }
 
     @Override
@@ -61,21 +48,15 @@ public class SavingsAdapter  extends RecyclerView.Adapter<SavingsAdapter.Savings
     }
 
     public static class SavingsViewHolder extends RecyclerView.ViewHolder {
-       CardView cardview;
-       TextView userId, targetAmount;
-       ImageView imgSavings;
-        public SavingsViewHolder(@NonNull View itemView) {
-            super(itemView);
+        final public SaveGoalsViewModel viewModel;
 
-                cardview = (CardView)itemView.findViewById(R.id.card_view);
-                userId = (TextView)itemView.findViewById(R.id.userId);
-                targetAmount= (TextView)itemView.findViewById(R.id.targetAmount);
-                imgSavings = (ImageView)itemView.findViewById(R.id.imgSavings);
-            }
+        public SavingsViewHolder(SavingsItemBinding binding) {
+            super(binding.getRoot());
+            viewModel = new SaveGoalsViewModel(itemView.getContext());
+            binding.setViewModel(viewModel);
         }
-
-
     }
+}
 
 
 

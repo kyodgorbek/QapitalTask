@@ -1,59 +1,49 @@
 package yodgobekkomilov.edgar.com.qapitaltask;
 
-import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.widget.GridView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import adapter.SavingsAdapter;
+import database.SavingsRoomDatabase;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import pojo.SavingEndingPoint;
-
 import pojo.SavingsClient;
 import pojo.SavingsGoal;
 import pojo.SavingsInterface;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
-public ArrayList<SavingsGoal> savingGoals;
-public SavingsAdapter adapter;
-Context context;
-RecyclerView recyclerView;
+    public SavingsAdapter adapter;
+    RecyclerView recyclerView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
+        recyclerView = findViewById(R.id.recycler_view);
+        adapter = new SavingsAdapter(getBaseContext());
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
         SavingsInterface api = SavingsClient.getApiService();
-        Call <SavingEndingPoint> call = api.getSavings();
-        call.enqueue(new Callback<SavingEndingPoint>() {
-            @Override
-            public void onResponse(Call <SavingEndingPoint> call, Response <SavingEndingPoint> response) {
+        api.getSavings().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<SavingEndingPoint>() {
+                    @Override
+                    public void accept(SavingEndingPoint savingEndingPoint) throws Exception {
+                        SavingsRoomDatabase.getDatabase(MainActivity.this).savingsGoalDao().deleteAll();
+                        for (SavingsGoal sg : savingEndingPoint.getSavingsGoals())
+                            SavingsRoomDatabase.getDatabase(MainActivity.this).savingsGoalDao().insertAll(sg);
+                        adapter.refreshData();
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
 
-              savingGoals  = (ArrayList<SavingsGoal>) response.body().getSavingsGoals();
-                recyclerView = findViewById(R.id.recycler_view);
-                adapter = new SavingsAdapter( savingGoals);
-                recyclerView.setAdapter(adapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-            }
-
-            @Override
-            public void onFailure(Call<SavingEndingPoint> call, Throwable t) {
-
-            }
-        });
-
-
-
-
+                    }
+                });
 
     }
 }
