@@ -50,13 +50,14 @@ public class SavingsAdapter  extends RecyclerView.Adapter<SavingsAdapter.Savings
 
 
         Picasso.get().load(savingGoals.get(position).getGoalImageURL()).into(savingsViewHolder.imgSavings);
-        savingsViewHolder.userId.setText(savingGoals.get(position).getUserId());
-        savingsViewHolder.targetAmount.setText((Integer) savingGoals.get(position).getTargetAmount());
+        savingsViewHolder.userId.setText((String.valueOf(savingGoals.get(position).getName())));
+        savingsViewHolder.targetAmount.setText((String.valueOf( savingGoals.get(position).getTargetAmount())));
+
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return savingGoals.size();
     }
 
     public static class SavingsViewHolder extends RecyclerView.ViewHolder {

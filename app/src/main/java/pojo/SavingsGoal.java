@@ -1,12 +1,18 @@
 package pojo;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+@Entity(tableName = "savingsGoals_table")
 public class SavingsGoal {
-
+    @PrimaryKey
+    @NonNull
     @SerializedName("goalImageURL")
     @Expose
     private String goalImageURL;
@@ -14,6 +20,8 @@ public class SavingsGoal {
     @Expose
     private Integer userId;
     @SerializedName("targetAmount")
+    @PrimaryKey
+    @NonNull
     @Expose
     private Object targetAmount;
     @SerializedName("currentBalance")

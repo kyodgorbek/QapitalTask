@@ -3,7 +3,9 @@ package yodgobekkomilov.edgar.com.qapitaltask;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.widget.GridView;
 
 import java.util.ArrayList;
@@ -40,6 +42,7 @@ RecyclerView recyclerView;
                 recyclerView = findViewById(R.id.recycler_view);
                 adapter = new SavingsAdapter( savingGoals);
                 recyclerView.setAdapter(adapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
             }
 
             @Override
